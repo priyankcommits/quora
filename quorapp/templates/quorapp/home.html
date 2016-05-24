@@ -1,0 +1,43 @@
+{% load staticfiles %}
+<head>
+  <title>Quora Slim Version - Login </title>
+  <link rel="stylesheet" type="text/css" href="{% static 'quorapp/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'quorapp/style.css' %}" type="text/css">
+  <script src="{% static 'quorapp/jquery.min.js' %}"></script>
+  <script src="{% static 'quorapp/bootstrap.min.js' %}"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<div class="container-fluid">
+  <div class="row nopadding">
+    <div class="col-xs-12 redbg">
+ <h2 class="text-center">Quora Slimmer & Better </h2>
+ <div class="dropdown dropposition">
+  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+     {% if user and not user.is_anonymous %}
+      Hello {{ user.get_full_name|default:user.username }}&nbsp;!
+  <span class="caret"></span></button>
+  <ul class="dropdown-menu">
+    <li><a href="#">View / Edit Profile</a></li>
+    <li><a href="{% url 'auth:logout' %}?next=/">Logout</a></li>
+  </ul>
+    {% else %}
+    <ul><li><a href="{% url 'login' %}">Login Facebook</a></li></ul>
+    {% endif %}
+ </div>
+ <div class="col-lg-3"><h4 class="bluetext"><b>Topics</b></h4>
+  {% for topic in topicslist %}
+    <h5 class="blacktext"> {{topic.name}} </h5>
+  {% endfor %}
+ </div>
+ <div class="col-lg-6"><h4 class="bluetext text-center"><b>Questions</b></h4>
+  {% for question in questionslist %}
+    <h5 class="blacktext"> {{question.text}} </h5>
+  {% endfor %}
+ </div>
+  <div class="col-lg-3"></div>
+    </div>
+
+  </div>
+ </div>
+</body>

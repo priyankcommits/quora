@@ -1,0 +1,29 @@
+{% load staticfiles %}
+<head>
+  <title>Quora Slim Version - Login </title>
+  <link rel="stylesheet" type="text/css" href="{% static 'quorapp/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'quorapp/style.css' %}" type="text/css">
+  <script src="{% static 'quorapp/jquery.min.js' %}"></script>
+  <script src="{% static 'quorapp/bootstrap.min.js' %}"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+
+<body class="bluebg">
+  <div class="container-fluid">
+    <div class="row nopadding">
+      <div class="col-xs-12 redbg">
+        <h2 class="text-center">Quora Slimmer & Better</h2>
+      </div>
+      <div class="col-xs-12 graybg">
+        <h3 class="text-center">A place for better questions and better answers. Strictly NO relationship questions</h3>
+      </div>
+
+      <div class="col-xs-12 center-block text-center" style="padding-top:100px;">
+        <h3 class="text-center">Get Started Now:</h3>
+        <a role="button" href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}" class="btn btn-default btn-lg btn-size center-block text-center">Login Facebook</a>
+      </div>
+    </div>
+  </div>
+</body>
+
