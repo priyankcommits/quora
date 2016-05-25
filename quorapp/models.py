@@ -7,9 +7,9 @@ from typedmodels.models import TypedModel
 
 class Post(TypedModel):
     text = models.CharField(max_length = 10000)
-    user = models.OneToOneField(User)
-    isactive = models.IntegerField(default = 1)
-    isspam = models.IntegerField(default = 0)
+    user = models.ForeignKey(User)
+    isactive = models.BooleanField(default = True)
+    isspam = models.BooleanField(default = False)
     imagepath = models.CharField(max_length = 200)
 
 
