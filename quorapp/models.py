@@ -10,7 +10,7 @@ class Post(TypedModel):
     user = models.ForeignKey(User)
     isactive = models.BooleanField(default = True)
     isspam = models.BooleanField(default = False)
-    imagepath = models.CharField(max_length = 200)
+    imagepath = models.CharField(max_length = 200, null = True)
 
 
 class Topic(models.Model):

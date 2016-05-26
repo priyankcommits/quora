@@ -25,14 +25,28 @@
     <ul><li><a href="{% url 'login' %}">Login Facebook</a></li></ul>
     {% endif %}
  </div>
- <div class="col-lg-3"><h4 class="bluetext"><b>Topics</b></h4>
+ <div class="col-lg-3"><h3 class="bluetext"><b>Topics</b></h3>
   {% for topic in topicslist %}
     <h5 class="blacktext"> {{topic.name}} </h5>
   {% endfor %}
  </div>
- <div class="col-lg-6"><h4 class="bluetext text-center"><b>Questions</b></h4>
+ <div class="col-lg-6" style="padding-bot:30px;"><h3 class="bluetext text-center"><b>Questions</b></h3>
+   <div style="col-xs-12 padding-top:10px;">
+     <h4 class="bluetext"> <a class="custom" href="{% url 'postquestion' %}">Ask a Question ?</a></h4>
+  <h4 class="bluetext"> Here's some interesting content for you, happy Quoring.</h4>
+   </div>
   {% for question in questionslist %}
-    <h5 class="blacktext"> {{question.text}} </h5>
+  <h4 class="text-left"><span class="redtext">{{question.text}}</span>&nbsp;&nbsp; <span class="italictext">Asked by {{question.user.username}} {{question.id}} </span></h4>
+  {% for answer in answerslist %}
+  <h5 class="italictext">Answered by {{answer.user.username}} {{answer.question_id}}</h5>
+  <h5>{{answer.text}}</h5>
+  {% if not answer.imagepath %}
+  <img src="{{answer.imagepath}}" class="img-responsive" />
+  {% endif %}
+  <hr class="style1 center-block">
+  {% endfor %}
+  <hr class="style2 center-block" style="color:red">
+  <br>
   {% endfor %}
  </div>
   <div class="col-lg-3"></div>
