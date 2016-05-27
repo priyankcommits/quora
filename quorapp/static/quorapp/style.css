@@ -21,12 +21,20 @@
 .nopadding{
   padding:0px;
 }
-
+.q{
+  font-size:45px;
+}
 h2,h3{
   color: white;
 }
 a.custom{
   color: #3385ff;
+}
+a.white{
+  color: white;
+}
+a.white:hover{
+  color: white;
 }
 a.custom:hover{
   color:#3385ff;
@@ -36,6 +44,9 @@ a.custom:hover{
 }
 .bluetext{
   color: #3385ff;
+}
+.answertext{
+  color:#E8CC44;
 }
 .blacktext{
   color: black;
@@ -57,13 +68,13 @@ a.custom:hover{
 }
 hr.style1 {
   width:50%;
-  opacity:0.8;
+  opacity:0.3;
 	background-color: #FF3333;
-	border-top: 1px dashed white;
+	border-top: 1px solid #FF3333;
 }
 hr.style2 {
   width:90%;
-  opacity:0.7;
+  opacity:0.4;
 	background-color: #FF3333;
-	border-top: 1px dashed white;
+	border-top: 1px solid #FF3333;
 }

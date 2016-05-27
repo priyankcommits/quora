@@ -1,0 +1,10 @@
+{% extends "quorapp/base.html" %}
+{% block content %}
+ <div class="col-lg-12" style="padding-bot:30px;"><h3 class="bluetext"><b>Delete Post ?</b></h3>
+   <br/><h3 class="redtext"><span class="q redtext">Q</span>&nbsp;<span class="redtext">{{ post }} </span></h3> 
+  <form method="post">{% csrf_token %}
+     <table>
+       <tr><td colspan="20"><input type="submit" class="btn btn-danger" value="Delete" /></td></tr>
+     </table>
+ </div>
+{% endblock content %}

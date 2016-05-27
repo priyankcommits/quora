@@ -21,7 +21,10 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', login, name='login'),
     url(r'^home/$', home, name='home'),
+    url(r'^profile/$', profile, name='profile'),
     url(r'^postquestion/$', postquestion, name='postquestion'),
+    url(r'^postanswer/$', postanswer, name='postanswer'),
+    url(r'^postdelete/$', postdelete, name='postdelete'),
     url('', include('social.apps.django_app.urls', namespace='social')),
     url('', include('django.contrib.auth.urls', namespace='auth')),
 ]
