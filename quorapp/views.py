@@ -29,18 +29,6 @@ def save_profile(strategy, details, response, user=None, *args, **kwargs):
                 **attrs
             )
 
-def save_profile2(strategy, details, response, user=None, *args, **kwargs):
-    if user:
-        if 1<2:
-            attrs = {'user': user}
-            if 1<2:
-                fb_data = {
-                }
-                attrs = dict(attrs.items() + fb_data.items())
-            UserProfile.objects.create(
-                **attrs
-            )
-
 def profile(request):
     profile = UserProfile.objects.get(user_id = request.user.id)
     topics = Topic.objects.all()
