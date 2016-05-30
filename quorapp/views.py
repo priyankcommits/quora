@@ -2,29 +2,50 @@ from django.shortcuts import render, render_to_response
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.template.context import RequestContext
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 
-from .models import Topic, Question, Answer, Post, UserProfile
+from .models import Topic, Question, Answer, Post, UserProfile, UserFollows
 from .forms import QuestionForm, AnswerForm, DeletePostForm, UserProfileForm
 
 def login(request):
+
     return render_to_response('quorapp/login.html')
 
 @login_required(login_url = '/')
 def home(request):
     questions = Question.objects.all().order_by('-updated_at')
-    # answers = Answer.objects.all()
     topics = Topic.objects.all()
-    print topics
     context = RequestContext(request,{'request': request,'user': request.user,
         'topicslist':topics,'questionslist':questions})
 
     return render_to_response('quorapp/home.html',context_instance=context)
 
+def save_profile(strategy, details, response, user=None, *args, **kwargs):
+    if user:
+        if kwargs['is_new']:
+            attrs = {'user': user}
+            attrs = dict(attrs.items() + fb_data.items())
+            UserProfile.objects.create(
+                **attrs
+            )
+
+def save_profile2(strategy, details, response, user=None, *args, **kwargs):
+    if user:
+        if 1<2:
+            attrs = {'user': user}
+            if 1<2:
+                fb_data = {
+                }
+                attrs = dict(attrs.items() + fb_data.items())
+            UserProfile.objects.create(
+                **attrs
+            )
+
 def profile(request):
-    profile = UserProfile.objects.get(user_id =1)
+    profile = UserProfile.objects.get(user_id = request.user.id)
     topics = Topic.objects.all()
     if request.method == 'GET':
-        form = UserProfileForm(instance = profile)
+        form = UserProfileForm(initial = {'first_name':profile.user.first_name})
     else:
         pass
 
@@ -82,4 +103,21 @@ def postdelete(request):
         return HttpResponseRedirect('/home/')
 
     return render(request,'quorapp/postdelete.html',{'form':form,'topicslist':topics,'post':post.text})
+
+def topic(request):
+    topic_id = request.GET.get("t",1)
+    questions = Question.objects.filter(topic_id = topic_id)
+    topics = Topic.objects.all()
+
+    return render(request,'quorapp/home.html',{'topicslist':topics,'questionslist':questions})
+
+def follow(request):
+    follow_id = request.GET.get("f")
+    user_to_follow = User.objects.get(id = follow_id)
+    user_follows = UserFollows.objects.create(
+            user = request.user,
+            follow_id = user_to_follows,
+            )
+
+    return HttpResponseRedirect("/home/")
 

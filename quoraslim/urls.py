@@ -25,6 +25,8 @@ urlpatterns = [
     url(r'^postquestion/$', postquestion, name='postquestion'),
     url(r'^postanswer/$', postanswer, name='postanswer'),
     url(r'^postdelete/$', postdelete, name='postdelete'),
+    url(r'^topic/$', topic, name='topic'),
+    url(r'^follow/$', follow, name='follow'),
     url('', include('social.apps.django_app.urls', namespace='social')),
     url('', include('django.contrib.auth.urls', namespace='auth')),
 ]
