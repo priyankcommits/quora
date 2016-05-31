@@ -12,6 +12,16 @@
 <div class="container-fluid">
   <div class="row nopadding">
     <div class="col-lg-12 redbg">
+      <div class="col-lg-12">
+      <div class="col-lg-2">
+        {% if  request.GET.status %}
+<div class="alert alert-success fade in">
+  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+  <strong>{{request.GET.status}}</strong>
+</div>
+  {% endif %}
+      </div>
+    <div class="col-lg-10">
       <h2 class="text-center"><a class="white" href="{% url 'home' %}">Quora Slimmer & Better </a></h2>
  <div class="dropdown dropposition">
   <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
@@ -26,6 +36,8 @@
     <ul><li><a href="{% url 'login' %}">Login Facebook</a></li></ul>
     {% endif %}
  </div>
+ </div>
+      </div>
  <div class="col-lg-2"><h3 class="bluetext"><b>Topics</b></h3>
   {% for topic in topicslist %}
   <h5 class="blacktext"><a class="custom" href="{% url 'topic' %}?t={{topic.id}}"> {{topic.name}}</a> </h5>

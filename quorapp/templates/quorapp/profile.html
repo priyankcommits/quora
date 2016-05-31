@@ -1,5 +1,19 @@
-<form method="POST">
+{% extends "quorapp/base.html" %}
+{% block content %}
+ <div class="col-lg-12" style="padding-bot:30px;"><h3 class="bluetext"><b>Your Profile</b></h3>
+  <form method="POST">
   {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Submit" />
+    <table>
+    <tr> <td colspan="5"><h5>First Name: </h5></td><td colspan="10">{{form.first_name}}</td></tr>
+    <tr><td colspan="5"><h5>Last Name:</h5></td><td colspan="10">{{form.last_name}}</td></tr>
+    <tr><td colspan="5"><h5>Profile Image:</h5></td><td colspan="10"> {{form.profileimage}}</td></tr>
+    <tr><td colspan="5"><h5>About</h5></td><td colspan="10">{{form.about}}</td></tr>
+    <tr><td colspan="5"><h5>Age:</h5></td><td colspan="10">{{form.age}}</td></tr>
+    <tr><td colspan="5"><h5>Sex:</h5></td><td colspan="10">{{form.sex}}</td></tr>
+    <tr><td colspan="5"><h5>Website:</h5></td><td colspan="10">{{form.website}}</td></tr>
+    </table>
+
+    <input type="submit" value="Save" class="btn btn-default"/>
 </form>
+ </div>
+{% endblock content %}

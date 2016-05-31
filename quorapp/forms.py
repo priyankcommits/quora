@@ -14,7 +14,6 @@ class UserProfileForm(forms.Form):
     )
     first_name = forms.CharField(widget=forms.TextInput(attrs=dict(required=True, max_length=30)), label=_("Fist Name"))
     last_name = forms.CharField(widget=forms.TextInput(attrs=dict(required=True, max_length=30)), label=_("Last Name"))
-    email = forms.EmailField(widget=forms.TextInput(attrs=dict(required=True, max_length=30)), label=_("Email address"))
     profileimage = forms.CharField(widget=forms.TextInput(attrs=dict(max_length=200)), label=_("Profile Image"))
     about = forms.CharField(widget=forms.TextInput(attrs=dict(max_length=200)), label=_("About"))
     age = forms.CharField(max_length=3, label=_("Age"))

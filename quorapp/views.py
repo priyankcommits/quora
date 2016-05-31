@@ -33,9 +33,29 @@ def profile(request):
     profile = UserProfile.objects.get(user_id = request.user.id)
     topics = Topic.objects.all()
     if request.method == 'GET':
-        form = UserProfileForm(initial = {'first_name':profile.user.first_name})
+        form = UserProfileForm(initial = {
+            'first_name':profile.user.first_name,
+            'last_name':profile.user.last_name,
+            'about':profile.about,
+            'age':profile.age,
+            'sex':profile.sex,
+            'website':profile.website,
+            'profileimage':profile.profileimage,
+            })
     else:
-        pass
+        form = UserProfileForm(request.POST)
+        if form.is_valid():
+            profile = UserProfile.objects.get(user_id = request.user.id)
+            profile.first_name = form.cleaned_data['first_name']
+            profile.last_name = form.cleaned_data['last_name']
+            profile.about = form.cleaned_data['about']
+            profile.age = form.cleaned_data['age']
+            profile.sex = form.cleaned_data['sex']
+            profile.website = form.cleaned_data['website']
+            profile.profileimage = form.cleaned_data['profileimage']
+            profile.save()
+
+            return HttpResponseRedirect('/profile/?status=Profile Saved')
 
     return render(request,'quorapp/profile.html',{'form':form,'topicslist':topics})
 
