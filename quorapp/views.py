@@ -8,7 +8,6 @@ from .models import Topic, Question, Answer, Post, UserProfile, UserFollows
 from .forms import QuestionForm, AnswerForm, DeletePostForm, UserProfileForm
 
 def login(request):
-
     return render_to_response('quorapp/login.html')
 
 @login_required(login_url = '/')
@@ -24,10 +23,21 @@ def save_profile(strategy, details, response, user=None, *args, **kwargs):
     if user:
         if kwargs['is_new']:
             attrs = {'user': user}
-            attrs = dict(attrs.items() + fb_data.items())
+            # attrs = dict(attrs.items() + fb_data.items())
+            attrs = dict(attrs.items())
             UserProfile.objects.create(
                 **attrs
             )
+
+
+class ProfileView():
+    def get(self):
+        # show form
+        pass
+
+    def post(self):
+        pass
+
 
 def profile(request):
     profile = UserProfile.objects.get(user_id = request.user.id)
@@ -66,7 +76,7 @@ def postquestion(request):
     else:
         form = QuestionForm(request.POST)
         if form.is_valid():
-            topic = Topic.objects.filter(id = int(form.cleaned_data['topics'])).first()
+            topic = Topic.objects.filter(id=int(form.cleaned_data['topics'])).first()
             question = Question.objects.create(
                 type = 'quorapp.question',
                 user = request.user,
@@ -75,16 +85,19 @@ def postquestion(request):
                 )
             return HttpResponseRedirect('/home/')
 
-    return render(request,'quorapp/postquestion.html',{'form':form,'topicslist':topics})
+    # import ipdb; ipdb.set_trace()
+    return render(request,'quorapp/postquestion.html',
+            {'form':form,'topicslist':topics})
 
 def postanswer(request):
     question_id = request.GET.get("q")
     question = Question.objects.get(id= question_id)
+    topics = Topic.objects.all()
     if request.method == 'GET':
-        topics = Topic.objects.all()
         form = AnswerForm()
     else:
         form = AnswerForm(request.POST)
+        # import ipdb; ipdb.set_trace()
         if form.is_valid():
             answer = Answer.objects.create(
                 type = 'quorapp.answer',
@@ -95,7 +108,8 @@ def postanswer(request):
                 )
             return HttpResponseRedirect('/home/')
 
-    return render(request,'quorapp/postanswer.html',{'form':form,'topicslist':topics,'question':question.text})
+    return render(request,'quorapp/postanswer.html',
+            {'form':form,'topicslist':topics,'question':question.text})
 
 def postdelete(request):
     post_id = request.GET.get("p")
@@ -121,10 +135,10 @@ def topic(request):
 
 def follow(request):
     follow_id = request.GET.get("f")
-    user_to_follow = User.objects.get(id = follow_id)
+    user_to_follow = User.objects.get(id=follow_id)
     user_follows = UserFollows.objects.create(
             user = request.user,
-            follow_id = user_to_follows,
+            follow_id = user_to_follow.id,
             )
 
     return HttpResponseRedirect("/home/")

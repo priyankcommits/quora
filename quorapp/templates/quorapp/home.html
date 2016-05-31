@@ -16,7 +16,7 @@
 
   {% for answer in question.answer_set.all %}
   <h5>Answer by <span class="italictext">{{answer.user.username}} </span>
-    <a href="{% url 'follow' %}?t={{answer.user.id}}" role="button" class="btn btn-default"><span class="bluetext">Follow</span></a>
+    <a href="{% url 'follow' %}?f={{answer.user.id}}" role="button" class="btn btn-default"><span class="bluetext">Follow</span></a>
     <a href="" role="button" class="btn btn-default"><span class="bluetext">Upvotes: {{answer.upvotes}}</span></a>
     {% if request.user == answer.user %}
     <a href="{% url 'postdelete' %}?p={{answer.id}}" role="button" class="btn btn-danger"><span>Delete</span></a>

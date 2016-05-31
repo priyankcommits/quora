@@ -22,14 +22,25 @@ class UserProfileForm(forms.Form):
 
 
 class QuestionForm(forms.Form):
-    topic_choices = [(topic.id, topic.name) for topic in Topic.objects.all()]
-    topics = forms.ChoiceField(choices = topic_choices, label=_("topic"), required = True)
-    text = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'Please enter the question'}),max_length=10000,required = True, label=_("text"))
+    def __init__(self, *args, **kwargs):
+        super(QuestionForm, self).__init__(*args, **kwargs)
 
+        topic_choices = [(topic.id, topic.name) for topic in Topic.objects.all()]
+        self.fields['topics'] = forms.ChoiceField(choices = topic_choices, label=_("topic"), required = True)
+        self.fields['text'] = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'Please enter the question'}),max_length=10000,required = True, label=_("text"))
 
 class AnswerForm(forms.Form):
-    text = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'Please enter the answer'}),max_length=10000,required = True, label=_("text"))
-    imagepath = forms.CharField(widget=forms.TextInput(),max_length=200, label=_("imagepath"))
+    text = forms.CharField(widget=forms.Textarea(
+        attrs={'placeholder': 'Please enter the answer'}),
+        max_length=10000,
+        required=True,
+        label=_("text")
+        )
+    imagepath = forms.CharField(
+            widget=forms.TextInput(),
+            max_length=200, label=_("imagepath"),
+            required=False
+            )
 
 
 class DeletePostForm(forms.Form):
