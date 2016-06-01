@@ -78,3 +78,8 @@ hr.style2 {
 	background-color: #FF3333;
 	border-top: 1px solid #FF3333;
 }
+.img-circle{
+  border-radius: 50%;
+  height:200px;
+  width:200px;
+}

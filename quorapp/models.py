@@ -7,6 +7,8 @@ from typedmodels.models import TypedModel
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
+    first_name = models.CharField(max_length = 100, null = True, blank = True)
+    last_name = models.CharField(max_length = 100, null = True, blank = True)
     profileimage = models.CharField(max_length = 200, null= True, blank = True)
     about = models.CharField(max_length = 200, null = True, blank = True)
     age = models.CharField(max_length = 3, null = True, blank = True)
@@ -65,3 +67,11 @@ class UserFollows(models.Model):
 class UserFollowers(models.Model):
     user = models.ForeignKey(User ,related_name = 'userfollowers')
     follower = models.ForeignKey(User , related_name = 'follower')
+
+
+class Notification(models.Model):
+    user = models.ForeignKey(User, related_name = 'user')
+    notification = models.ForeignKey(User, related_name = 'notification')
+    type = models.IntegerField(default=0, null = True, blank = True)
+    post = models.ForeignKey(Post)
+

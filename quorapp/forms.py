@@ -29,6 +29,7 @@ class QuestionForm(forms.Form):
         self.fields['topics'] = forms.ChoiceField(choices = topic_choices, label=_("topic"), required = True)
         self.fields['text'] = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'Please enter the question'}),max_length=10000,required = True, label=_("text"))
 
+
 class AnswerForm(forms.Form):
     text = forms.CharField(widget=forms.Textarea(
         attrs={'placeholder': 'Please enter the answer'}),
@@ -44,4 +45,11 @@ class AnswerForm(forms.Form):
 
 
 class DeletePostForm(forms.Form):
+    pass
+
+
+class FollowForm(forms.Form):
+    pass
+
+class UpvotesForm(forms.Form):
     pass

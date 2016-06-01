@@ -21,21 +21,24 @@
 </div>
   {% endif %}
       </div>
-    <div class="col-lg-10">
+    <div class="col-lg-8">
       <h2 class="text-center"><a class="white" href="{% url 'home' %}">Quora Slimmer & Better </a></h2>
- <div class="dropdown dropposition">
+      </div>
+      <div class="col-lg-2">
+      <div class="dropdown dropposition">
   <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
      {% if user and not user.is_anonymous %}
       Hello {{ user.get_full_name|default:user.username }}&nbsp;!
   <span class="caret"></span></button>
   <ul class="dropdown-menu">
-    <li><a href="{% url 'profile' %}">View / Edit Profile</a></li>
+    <li><a href="{% url 'view_profile' %}">View Profile</a></li>
     <li><a href="{% url 'auth:logout' %}?next=/">Logout</a></li>
   </ul>
     {% else %}
     <ul><li><a href="{% url 'login' %}">Login Facebook</a></li></ul>
     {% endif %}
  </div>
+    </div>
  </div>
       </div>
  <div class="col-lg-2"><h3 class="bluetext"><b>Topics</b></h3>

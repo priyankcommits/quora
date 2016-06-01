@@ -1,11 +1,12 @@
 from django.shortcuts import render, render_to_response
 from django.http import HttpResponseRedirect, HttpResponse, Http404
+from django.core.urlresolvers import reverse
 from django.template.context import RequestContext
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
 from .models import Topic, Question, Answer, Post, UserProfile, UserFollows
-from .forms import QuestionForm, AnswerForm, DeletePostForm, UserProfileForm
+from .forms import QuestionForm, AnswerForm, DeletePostForm, UserProfileForm, FollowForm, UpvotesForm
 
 def login(request):
     return render_to_response('quorapp/login.html')
@@ -29,23 +30,19 @@ def save_profile(strategy, details, response, user=None, *args, **kwargs):
                 **attrs
             )
 
+def view_profile(request):
+    profile = UserProfile.objects.get(user_id = request.user.id)
+    topics = Topic.objects.all()
 
-class ProfileView():
-    def get(self):
-        # show form
-        pass
+    return render(request,'quorapp/view_profile.html',{'topicslist':topics,'profile':profile})
 
-    def post(self):
-        pass
-
-
-def profile(request):
+def edit_profile(request):
     profile = UserProfile.objects.get(user_id = request.user.id)
     topics = Topic.objects.all()
     if request.method == 'GET':
         form = UserProfileForm(initial = {
-            'first_name':profile.user.first_name,
-            'last_name':profile.user.last_name,
+            'first_name':profile.first_name,
+            'last_name':profile.last_name,
             'about':profile.about,
             'age':profile.age,
             'sex':profile.sex,
@@ -65,7 +62,7 @@ def profile(request):
             profile.profileimage = form.cleaned_data['profileimage']
             profile.save()
 
-            return HttpResponseRedirect('/profile/?status=Profile Saved')
+            return HttpResponseRedirect('/view_profile/?status=Profile Saved')
 
     return render(request,'quorapp/profile.html',{'form':form,'topicslist':topics})
 
@@ -135,11 +132,32 @@ def topic(request):
 
 def follow(request):
     follow_id = request.GET.get("f")
-    user_to_follow = User.objects.get(id=follow_id)
-    user_follows = UserFollows.objects.create(
-            user = request.user,
-            follow_id = user_to_follow.id,
-            )
+    follow = User.objects.get(id = follow_id)
+    topics = Topic.objects.all()
+    if request.method == 'GET':
+        form  = FollowForm()
+    else:
+        user_follows = UserFollows.objects.create(
+                user = request.user,
+                follow_id = follow.id,
+                )
 
-    return HttpResponseRedirect("/home/")
+        return HttpResponseRedirect("/home/")
+
+    return render(request,'quorapp/follow.html',{'topicslist':topics,'follow':follow})
+
+def upvote(request):
+    upvote_id = request.GET.get("u")
+    answer = Answer.objects.get(id = upvote_id)
+    topics = Topic.objects.all()
+    if request.method == 'GET':
+        form = UpvotesForm()
+    else:
+        answer.upvotes += 1
+        answer.save()
+
+        return HttpResponseRedirect(reverse(home))
+
+    return render(request,'quorapp/upvote.html',{'topicslist': topics,'answer':answer.text})
+
 

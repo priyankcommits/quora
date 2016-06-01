@@ -1,0 +1,19 @@
+{% extends "quorapp/base.html" %}
+{% block content %}
+<div class="col-lg-12" style="padding-bot:30px;"><h3 class="bluetext"><b>Your Profile</b></h3>
+  <div class="col-lg-6">
+    <table>
+    <tr> <td colspan="5"><h5>First Name: </h5></td><td colspan="10">{{profile.first_name}}</td></tr>
+    <tr><td colspan="5"><h5>Last Name:</h5></td><td colspan="10">{{profile.last_name}}</td></tr>
+    <tr><td colspan="5"><h5>Age:</h5></td><td colspan="10">{{profile.age}}</td></tr>
+    <tr><td colspan="5"><h5>Sex:</h5></td><td colspan="10">{{profile.sex}}</td></tr>
+    </table>
+  </div>
+  <div class="col-lg-6">
+  <img src="{{profile.profileimage}}" class="img-circle" />
+  <h5 class="bluetext">"{{profile.about}}" </h5>
+  <h5 class=""><a href="{{profile.website}}" class="custom">{{profile.website}} </a> </h5>
+  </div>
+  <a href="{% url 'edit_profile' %}" role="button" class="btn btn-default">Edit </a>
+ </div>
+{% endblock content %}
