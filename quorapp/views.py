@@ -5,7 +5,7 @@ from django.template.context import RequestContext
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
-from .models import Topic, Question, Answer, Post, UserProfile, UserFollows
+from .models import Topic, Question, Answer, Comment, Post, UserProfile, UserFollows
 from .forms import QuestionForm, AnswerForm, DeletePostForm, UserProfileForm, FollowForm, UpvotesForm
 
 def login(request):

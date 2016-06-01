@@ -54,6 +54,13 @@ class Answer(Post):
         return str(self.id)
 
 
+class Comment(Post):
+    answer = models.ForeignKey(Answer)
+
+    def __str__(self):
+        return str(self.id)
+
+
 class UserTopics(models.Model):
     user = models.OneToOneField(User)
     topic = models.ForeignKey(Topic)
