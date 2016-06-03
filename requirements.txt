@@ -5,6 +5,7 @@ Django==1.9.5
 django-extensions==1.6.1
 django-typed-models==0.5.0
 gnureadline==6.3.3
+gunicorn==19.6.0
 httplib2==0.9.2
 ipdb==0.9.3
 ipython==4.2.0

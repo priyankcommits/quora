@@ -185,5 +185,9 @@ def seek_confirm(request):
     if request.method == 'GET':
         form = SeekConfirmForm()
     else:
-        Notification(question_id,)
+        Notification(question_id,1,user_id,request.user.id)
+
+        return HttpResponseRedirect('/home/?status=Question Asked')
+
+    return render(request,'quorapp/seek_confirm.html',{'form':form,'topicslist':topics,'question':question})
 
