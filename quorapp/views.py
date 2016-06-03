@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
 from .models import Topic, Question, Answer, Comment, Post, UserProfile, UserFollows
-from .forms import QuestionForm, AnswerForm, DeletePostForm, UserProfileForm, FollowForm, UpvotesForm
+from .forms import QuestionForm, AnswerForm, DeletePostForm, UserProfileForm, FollowForm, UpvotesForm, SeekForm, SeekConfirmForm
 
 def login(request):
     return render_to_response('quorapp/login.html')
@@ -17,6 +17,7 @@ def home(request):
     topics = Topic.objects.all()
     context = RequestContext(request,{'request': request,'user': request.user,
         'topicslist':topics,'questionslist':questions})
+
 
     return render_to_response('quorapp/home.html',context_instance=context)
 
@@ -31,7 +32,8 @@ def save_profile(strategy, details, response, user=None, *args, **kwargs):
             )
 
 def view_profile(request):
-    profile = UserProfile.objects.get(user_id = request.user.id)
+    user_id = request.GET.get("u",request.user.id)
+    profile = UserProfile.objects.get(user_id = user_id)
     topics = Topic.objects.all()
 
     return render(request,'quorapp/view_profile.html',{'topicslist':topics,'profile':profile})
@@ -160,4 +162,28 @@ def upvote(request):
 
     return render(request,'quorapp/upvote.html',{'topicslist': topics,'answer':answer.text})
 
+def seek(request):
+    question_id = request.GET.get("q",1)
+    question = Question.objects.get(id = question_id)
+    topics = Topic.objects.all()
+    if request.method == 'GET':
+        form = SeekForm()
+    else:
+        form = SeekForm(request.POST)
+        # import ipdb; ipdb.set_trace()
+        if form.is_valid():
+            users = User.objects.filter(username__icontains = form.cleaned_data['search'])
+
+        return render(request,'quorapp/seek.html',{'form':form,'topicslist':topics,'users':users})
+
+    return render(request,'quorapp/seek.html',{'form':form,'topicslist':topics,'question':question})
+
+def seek_confirm(request):
+    question_id = request.GET.get("q",1)
+    question = Question.objects.get(id = quesiton_id)
+    topics = Topic.objects.all()
+    if request.method == 'GET':
+        form = SeekConfirmForm()
+    else:
+        Notification(question_id,)
 

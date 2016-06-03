@@ -51,5 +51,14 @@ class DeletePostForm(forms.Form):
 class FollowForm(forms.Form):
     pass
 
+
 class UpvotesForm(forms.Form):
+    pass
+
+
+class SeekForm(forms.Form):
+    search = forms.CharField(widget=forms.TextInput(attrs=dict(required=True, max_length=30)), label=_("Username"))
+
+
+class SeekConfirmForm(forms.Form):
     pass

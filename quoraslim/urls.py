@@ -29,6 +29,7 @@ urlpatterns = [
     url(r'^topic/$', topic, name='topic'),
     url(r'^follow/$', follow, name='follow'),
     url(r'^upvote/$', upvote, name='upvote'),
+    url(r'^seek/$', seek, name='seek'),
     url('', include('social.apps.django_app.urls', namespace='social')),
     url('', include('django.contrib.auth.urls', namespace='auth')),
 ]
