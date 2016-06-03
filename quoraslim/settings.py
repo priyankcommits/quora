@@ -137,9 +137,9 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
-STATIC_ROOT = 'staticfiles'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
-STATICFILES_DIRS = (os.path.join(BASE_DIR, '../quorapp/static'))
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'staticfiles'))
 
 
 LOGIN_REDIRECT_URL = '/login/'
