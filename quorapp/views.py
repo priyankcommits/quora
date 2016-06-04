@@ -201,14 +201,14 @@ def seek_confirm(request):
     if request.method == 'GET':
         form = SeekConfirmForm()
     else:
-        NotificationCreate(question_id,1,user_id,request.user.id)
+        notification_create(question_id,1,user_id,request.user.id)
 
         return HttpResponseRedirect('/home/?status=Question Asked')
 
     return render(request,'quorapp/seek_confirm.html',{'form':form,'topicslist':topics,'question':question,'user':user,'notifications':notifications})
 
 
-def NotificationCreate(question,type,notification_to,user_id):
+def notification_create(question,type,notification_to,user_id):
     notification = Notification.objects.create(
             post_id = question,
             type = type,
@@ -218,4 +218,9 @@ def NotificationCreate(question,type,notification_to,user_id):
     return 0
 
 def question(request):
-    pass
+    question_id = request.GET.get("q",1)
+    question = Question.objects.filter(id = question_id)
+    topics = Topic.objects.all()
+    notifications = Notification.objects.filter (notification_id = request.user.id)
+
+    return render(request,'quorapp/question.html',{'topicslist':topics,'questions':question,'notifications':notifications})

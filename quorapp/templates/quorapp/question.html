@@ -1,0 +1,36 @@
+{% extends "quorapp/base.html" %}
+{% block content %}
+ <div class="col-xs-12" style="padding-bot:30px;"><h3 class="bluetext"><b>Questions</b></h3>
+   <div style="col-xs-12 padding-top:10px;">
+     <h4 class="bluetext"> <a role="button" class="btn btn-default" href="{% url 'postquestion' %}"><span class="redtext">Ask a Question ?</span></a></h4>
+  <h5 class="bluetext"> Here's some interesting content for you, happy Quoring.</h5>
+   </div>
+  {% for question in questions %}
+  <h4 class="text-left"><span class="redtext"><span class="q">Q</span>&nbsp;&nbsp;{{question.text}}
+
+      <a href="{% url 'postanswer' %}?q={{question.id}}" role="button" class="btn btn-default"><span class="answertext">Write Answer</span></a></span>
+    <a href="{% url 'seek' %}?q={{question.id}}" role=button class="btn btn-default"><span class="answertext">Seek Answer</span></a>
+    {% if request.user == question.user %}
+    <a href="{% url 'postdelete' %}?p={{question.id}}" role="button" class="btn btn-danger"><span>Delete</span></a>
+    {% endif %}
+    &nbsp;&nbsp;Asked by <span class="italictext">{{question.user.username}}</span></h4>
+
+  {% for answer in question.answer_set.all|dictsortreversed:"updated_at" %}
+  <h5>Answer by <span class="italictext">{{answer.user.username}} </span>
+    <a href="{% url 'follow' %}?f={{answer.user.id}}" role="button" class="btn btn-default"><span class="bluetext">Follow</span></a>
+    <a href="{% url 'upvote' %}?u={{answer.id}}" role="button" class="btn btn-default"><span class="bluetext">Upvotes: {{answer.upvotes}}</span></a>
+    {% if request.user == answer.user %}
+    <a href="{% url 'postdelete' %}?p={{answer.id}}" role="button" class="btn btn-danger"><span>Delete</span></a>
+    {% endif %} </h5>
+  <h5 class="answertext"><span class="q">A</span>&nbsp;&nbsp;{{answer.text}}</h5>
+
+  {% if answer.imagepath %}
+  <img src="{{answer.imagepath}}" class="img-responsive" />
+  {% endif %}
+  <hr class="style1 center-block">
+  {% endfor %}
+  <hr class="style2 center-block" style="color:red">
+  <br>
+  {% endfor %}
+ </div>
+{% endblock content %}
