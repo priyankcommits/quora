@@ -55,11 +55,12 @@ MIDDLEWARE_CLASSES = [
 
 
 # load constants from config_local.py
-try:
-    from config_local import *  # NOQA
-except ImportError:
-    pass
-
+#try:
+#    from config_local import *  # NOQA
+#except ImportError:
+#    pass
+SOCIAL_AUTH_FACEBOOK_KEY = os.getenv('SOCIAL_AUTH_FACEBOOK_KEY')
+SOCIAL_AUTH_FACEBOOK_SECRET = os.getenv('SOCIAL_AUTH_FACEBOOK_SECRET')
 
 ROOT_URLCONF = 'quoraslim.urls'
 
