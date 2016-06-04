@@ -31,6 +31,8 @@ urlpatterns = [
     url(r'^follow/$', follow, name='follow'),
     url(r'^upvote/$', upvote, name='upvote'),
     url(r'^seek/$', seek, name='seek'),
+    url(r'^seek_confirm/$', seek_confirm, name='seek_confirm'),
+    url(r'^question/$', question, name='question'),
     url('', include('social.apps.django_app.urls', namespace='social')),
     url('', include('django.contrib.auth.urls', namespace='auth')),
     url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),

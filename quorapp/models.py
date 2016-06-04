@@ -81,4 +81,5 @@ class Notification(models.Model):
     notification = models.ForeignKey(User, related_name = 'notification')
     type = models.IntegerField(default=0, null = True, blank = True)
     post = models.ForeignKey(Post)
+    read = models.IntegerField(default = 0)
 

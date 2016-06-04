@@ -53,6 +53,19 @@
   </div>
  <div class="col-lg-2">
    <h3 class="bluetext"><b>Notifications</b></h3>
+      <h4 class="bluetext">Unread</h4>
+     {% for notification in notifications %}
+     {% if notification.read == 0 %}
+     <h5 class="blacktext"><a class="custom" href="{% url 'question' %}?q={{notification.post_id}}">{{notification.post.text}}</a> </h5>
+     {% endif %}
+     {% endfor %}
+      <hr class="style1 center-block">
+      <h4 class="blactext">Read</h4>
+     {% for notification in notifications %}
+     {% if notification.read >= 1 %}
+     <h5 class="blacktext"><a class="blacktext" href="{% url 'question' %}?q={{notification.post_id}}">{{notification.post.text}}</a> </h5>
+     {% endif %}
+     {% endfor %}
  </div>
     </div>
   </div>

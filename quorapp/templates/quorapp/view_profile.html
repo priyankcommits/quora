@@ -1,6 +1,6 @@
 {% extends "quorapp/base.html" %}
 {% block content %}
-<div class="col-lg-12" style="padding-bot:30px;"><h3 class="bluetext"><b>Your Profile</b></h3>
+<div class="col-lg-12" style="padding-bot:30px;"><h3 class="bluetext"><b>{{profile.user.username}}'s profile:</b></h3>
   <div class="col-lg-6">
     <table>
       <tr><td colspan="15"> <img src="{{profile.profileimage}}" class="img-circle" /> </td></tr>

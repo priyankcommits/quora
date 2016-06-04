@@ -15,7 +15,7 @@
     {% endif %}
     &nbsp;&nbsp;Asked by <span class="italictext">{{question.user.username}}</span></h4>
 
-  {% for answer in question.answer_set.all %}
+  {% for answer in question.answer_set.all|dictsortreversed:"updated_at" %}
   <h5>Answer by <span class="italictext">{{answer.user.username}} </span>
     <a href="{% url 'follow' %}?f={{answer.user.id}}" role="button" class="btn btn-default"><span class="bluetext">Follow</span></a>
     <a href="{% url 'upvote' %}?u={{answer.id}}" role="button" class="btn btn-default"><span class="bluetext">Upvotes: {{answer.upvotes}}</span></a>
