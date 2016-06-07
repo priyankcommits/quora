@@ -26,7 +26,6 @@ def save_profile(strategy, details, response, user=None, *args, **kwargs):
     if user:
         if kwargs['is_new']:
             attrs = {'user': user}
-            # attrs = dict(attrs.items() + fb_data.items())
             attrs = dict(attrs.items())
             UserProfile.objects.create(
                 **attrs
@@ -90,7 +89,6 @@ def postquestion(request):
                 )
             return HttpResponseRedirect('/home/')
 
-    # import ipdb; ipdb.set_trace()
     return render(request,'quorapp/postquestion.html',
             {'form':form,'topicslist':topics,'notifications':notifications})
 
@@ -103,7 +101,6 @@ def postanswer(request):
         form = AnswerForm()
     else:
         form = AnswerForm(request.POST)
-        # import ipdb; ipdb.set_trace()
         if form.is_valid():
             answer = Answer.objects.create(
                 type = 'quorapp.answer',
@@ -183,11 +180,10 @@ def seek(request):
         form = SeekForm()
     else:
         form = SeekForm(request.POST)
-        # import ipdb; ipdb.set_trace()
         if form.is_valid():
             users = User.objects.filter(username__icontains = form.cleaned_data['search'])
 
-        return render(request,'quorapp/seek.html',{'form':form,'topicslist':topics,'question':question,'users':users,'notifications':notifications})
+            return render(request,'quorapp/seek.html',{'form':form,'topicslist':topics,'question':question,'users':users,'notifications':notifications})
 
     return render(request,'quorapp/seek.html',{'form':form,'topicslist':topics,'question':question,'notifications':notifications})
 

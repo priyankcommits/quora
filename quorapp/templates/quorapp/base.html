@@ -4,6 +4,7 @@
   <title>Quora Slim Version - Login </title>
   <link rel="stylesheet" type="text/css" href="{% static 'quorapp/bootstrap.min.css' %}">
   <link rel="stylesheet" href="{% static 'quorapp/style.css' %}" type="text/css">
+  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
   <script src="{% static 'quorapp/jquery.min.js' %}"></script>
   <script src="{% static 'quorapp/bootstrap.min.js' %}"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -28,8 +29,8 @@
       <div class="dropdown dropposition">
   <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
      {% if user and not user.is_anonymous %}
-      Hello {{ user.get_full_name|default:user.username }}&nbsp;!
-  <span class="caret"></span></button>
+      Hello {{ user.get_full_name|default:user.username }}&nbsp;
+  <span class="fa fa-bars" style="color:black"></span></button>
   <ul class="dropdown-menu">
     <li><a href="{% url 'view_profile' %}?u={{request.user.id}}">View Profile</a></li>
     <li><a href="{% url 'auth:logout' %}?next=/">Logout</a></li>
