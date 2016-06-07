@@ -14,10 +14,12 @@
      <h4 class="bluetext"> <a role="button" class="btn btn-default" href="{% url 'postquestion' %}"><span class="redtext">Ask a Question ?</span></a></h4>
    </div>
   {% for question in questionslist %}
-  <h4 class="text-left" style="display:inline-block"><span class="redtext"><span class="q">Q</span>&nbsp;&nbsp;{{question.text}}
-
+  <h4 class="text-left" style="display:inline-block">
+    <a href="{% url 'question' %}?q={{question.id}}" class="red">
+    <span class="redtext"><span class="q">Q</span>&nbsp;&nbsp;{{question.text}}
+      </a>
       <a href="{% url 'postanswer' %}?q={{question.id}}" role="button" class="btn btn-default"><span class="answertext">Write Answer</span></a></span>
-      &nbsp;&nbsp;Asked by <span class="italictext" style="display:inline-block">{{question.user.username}}</span></h4>
+    &nbsp;&nbsp;Asked by <span class="italictext" style="display:inline-block"><a href="{% url 'view_profile' %}?u={{question.user.id}}" class="black"> {{question.user.username}} </a></span></h4>
     <div class="btn-group" style="display:inline-block">
        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
       <span class="fa fa-bars blackext"></span></button>
@@ -30,7 +32,7 @@
 
     </div>
   {% for answer in question.answer_set.all|dictsortreversed:"updated_at" %}
-  <h5>Answer by <span class="italictext">{{answer.user.username}} </span>
+  <h5>Answer by <span class="italictext"><a href="{% url 'view_profile' %}?u={{answer.user.id}}" class="black"> {{answer.user.username}} </a></span>
     <a href="{% url 'upvote' %}?u={{answer.id}}" role="button" class="btn btn-default"><span class="bluetext">Upvotes: {{answer.upvotes}}</span></a>
     <div class="btn-group" style="display:inline-block">
        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">

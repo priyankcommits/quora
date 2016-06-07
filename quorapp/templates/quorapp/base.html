@@ -57,15 +57,23 @@
       <h4 class="bluetext">Unread</h4>
      {% for notification in notifications %}
      {% if notification.read == 0 %}
-     <h5 class="blacktext"><a class="custom" href="{% url 'question' %}?q={{notification.post_id}}">{{notification.post.text}}</a> </h5>
+     {% if notification.type == 1 %}
+     <h5 class="blacktext"><a class="custom" href="{% url 'notification' %}?n={{notification.id}}">{{notification.notification}} asked you to answer '{{notification.post.text}}'</a> </h5>
+     {% elif notification.type == 2 %}
+     <h5 class="blacktext"><a class="custom" href="{% url 'notification' %}?n={{notification.id}}">{{notification.notification}} wrote an answer to  '{{notification.post.text}}'</a> </h5>
+     {% endif %}
      {% endif %}
      {% endfor %}
       <hr class="style1 center-block">
       <h4 class="blactext">Read</h4>
      {% for notification in notifications %}
      {% if notification.read >= 1 %}
-     <h5 class="blacktext"><a class="blacktext" href="{% url 'question' %}?q={{notification.post_id}}">{{notification.post.text}}</a> </h5>
+    {% if notification.type == 1 %}
+     <h5 class="blacktext"><a class="black" href="{% url 'notification' %}?n={{notification.id}}">{{notification.notification}} asked you to answer '{{notification.post.text}}'</a> </h5>
+     {% elif notification.type == 2 %}
+     <h5 class="blacktext"><a class="black" href="{% url 'notification' %}?n={{notification.id}}">{{notification.notification}} wrote an answer to  '{{notification.post.text}}'</a> </h5>
      {% endif %}
+{% endif %}
      {% endfor %}
  </div>
     </div>

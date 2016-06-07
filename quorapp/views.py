@@ -4,6 +4,7 @@ from django.core.urlresolvers import reverse
 from django.template.context import RequestContext
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.db import transaction
 
 from .models import Topic, Question, Answer, Comment, Post, UserProfile, UserFollows, Notification
 from .forms import QuestionForm, AnswerForm, DeletePostForm, UserProfileForm, FollowForm, UpvotesForm, SeekForm, SeekConfirmForm
@@ -102,13 +103,15 @@ def postanswer(request):
     else:
         form = AnswerForm(request.POST)
         if form.is_valid():
-            answer = Answer.objects.create(
-                type = 'quorapp.answer',
-                user = request.user,
-                text = form.cleaned_data['text'],
-                imagepath = form.cleaned_data['imagepath'],
-                question_id = question.id,
-                )
+            with transaction.atomic():
+                answer = Answer.objects.create(
+                    type = 'quorapp.answer',
+                    user = request.user,
+                    text = form.cleaned_data['text'],
+                    imagepath = form.cleaned_data['imagepath'],
+                    question_id = question.id,
+                    )
+                notification.create(question.id,2,question.user.id,request.user.id)
             return HttpResponseRedirect('/home/')
 
     return render(request,'quorapp/postanswer.html',
@@ -127,7 +130,7 @@ def postdelete(request):
             post.isactive = 0
             post.save()
 
-        return HttpResponseRedirect('/home/')
+        return HttpResponseRedirect(reverse(home))
 
     return render(request,'quorapp/postdelete.html',{'form':form,'topicslist':topics,'post':post.text,'notifications':notifications})
 
@@ -152,7 +155,7 @@ def follow(request):
                 follow_id = follow.id,
                 )
 
-        return HttpResponseRedirect("/home/")
+        return HttpResponseRedirect(reverse(home))
 
     return render(request,'quorapp/follow.html',{'topicslist':topics,'follow':follow,'notifications':notifications})
 
@@ -220,3 +223,16 @@ def question(request):
     notifications = Notification.objects.filter (notification_id = request.user.id)
 
     return render(request,'quorapp/question.html',{'topicslist':topics,'questions':question,'notifications':notifications})
+
+def notification(request):
+    notification_id = request.GET.get("n",1)
+    notification = Notification.objects.get(id = notification_id)
+    print notification.id
+    notification.read = 1
+    notification.save()
+    question = Question.objects.filter(id = notification.post_id)
+    topics = Topic.objects.all()
+    notifications = Notification.objects.filter (notification_id = request.user.id)
+
+    return render(request,'quorapp/question.html',{'topicslist':topics,'questions':question,'notifications':notifications})
+

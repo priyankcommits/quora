@@ -33,6 +33,7 @@ urlpatterns = [
     url(r'^seek/$', seek, name='seek'),
     url(r'^seek_confirm/$', seek_confirm, name='seek_confirm'),
     url(r'^question/$', question, name='question'),
+    url(r'^notification/$', notification, name='notification'),
     url('', include('social.apps.django_app.urls', namespace='social')),
     url('', include('django.contrib.auth.urls', namespace='auth')),
     url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),

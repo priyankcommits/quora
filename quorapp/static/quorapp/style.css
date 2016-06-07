@@ -27,6 +27,19 @@
 h2,h3{
   color: white;
 }
+a.red{
+  color: #FF3333;
+}
+a.red:hover{
+  color: #FF3333;
+}
+
+a.black{
+  color:black;
+}
+a.black:hover{
+  color:black;
+}
 a.custom{
   color: #3385ff;
 }
