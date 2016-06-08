@@ -96,3 +96,17 @@ hr.style2 {
   height:200px;
   width:200px;
 }
+.topic{
+  color:black;
+  opacity: 0.8;
+  font-style:italic;
+}
+.comment{
+  color: green;
+}
+.commentsection{
+  background-color: #DFDFDF;
+}
+.answersection{
+  background-color:#E9E9E9;
+}

@@ -62,18 +62,13 @@ class Comment(Post):
 
 
 class UserTopics(models.Model):
-    user = models.OneToOneField(User)
+    user = models.ForeignKey(User)
     topic = models.ForeignKey(Topic)
 
 
 class UserFollows(models.Model):
     user = models.ForeignKey(User, related_name = 'userfollow')
     follow = models.ForeignKey(User, related_name = 'follow')
-
-
-class UserFollowers(models.Model):
-    user = models.ForeignKey(User ,related_name = 'userfollowers')
-    follower = models.ForeignKey(User , related_name = 'follower')
 
 
 class Notification(models.Model):

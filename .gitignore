@@ -1,6 +1,5 @@
 *.pyc
 *.DS_STORE
 *.ds_store
-*.sqlite3
 config_local.py
 db.sqlite3-journal

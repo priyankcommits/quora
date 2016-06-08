@@ -4,55 +4,81 @@
     <h3 class="bluetext" style="display:inline-block"><b>Questions</b> </h3>
       <div class="btn-group" style="display:inline-block">
      <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-      <span class="fa fa-bars bluetext"></span></button>
+      <span class="fa fa-angle-double-down bluetext"></span></button>
      <ul class="dropdown-menu" role="menu">
-       <li><a href="{% url 'view_profile' %}?u={{request.user.id}}"><span class="bluetext">Questions from my Topics</span></a></li>
-       <li><a href="{% url 'auth:logout' %}?next=/"><span class="bluetext">Questions from Following</span></a></li>
+       <li><a href="{% url 'quorapp:topic_questions' %}"><span class="bluetext">Questions from my Topics</span></a></li>
+       <li><a href="{% url 'quorapp:follow_questions' %}"><span class="bluetext">Questions from Following</span></a></li>
   </ul>
      </div>
    <div style="col-xs-12 padding-top:10px;">
-     <h4 class="bluetext"> <a role="button" class="btn btn-default" href="{% url 'postquestion' %}"><span class="redtext">Ask a Question ?</span></a></h4>
+     <h4 class="bluetext"> <a role="button" class="btn btn-default" href="{% url 'quorapp:postquestion' %}"><span class="redtext">Ask a Question ?</span></a></h4>
    </div>
+   {% if questionslist %}
   {% for question in questionslist %}
+  <h5 class="topic" style="display:inline-block;vertical-align:text-bottom;">{{question.topic.name}}</h5>
   <h4 class="text-left" style="display:inline-block">
-    <a href="{% url 'question' %}?q={{question.id}}" class="red">
+    <a href="{% url 'quorapp:question' %}?q={{question.id}}" class="red">
     <span class="redtext"><span class="q">Q</span>&nbsp;&nbsp;{{question.text}}
       </a>
-      <a href="{% url 'postanswer' %}?q={{question.id}}" role="button" class="btn btn-default"><span class="answertext">Write Answer</span></a></span>
-    &nbsp;&nbsp;Asked by <span class="italictext" style="display:inline-block"><a href="{% url 'view_profile' %}?u={{question.user.id}}" class="black"> {{question.user.username}} </a></span></h4>
+      <a href="{% url 'quorapp:postanswer' %}?q={{question.id}}" role="button" class="btn btn-default"><span class="answertext">Write Answer</span></a></span>
+    &nbsp;&nbsp;Asked by <span class="italictext" style="display:inline-block"><a href="{% url 'quorapp:view_profile' %}?u={{question.user.id}}" class="black"> {{question.user.username}} </a></span></h4>
     <div class="btn-group" style="display:inline-block">
        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-      <span class="fa fa-bars blackext"></span></button>
+      <span class="fa fa-angle-double-down blackext"></span></button>
      <ul class="dropdown-menu" role="menu">
-       <li><a href="{% url 'seek' %}?q={{question.id}}"><span class="answertext">Seek Answer</span></a></li>
+       <li><a href="{% url 'quorapp:seek' %}?q={{question.id}}"><span class="answertext">Seek Answer</span></a></li>
+       <li><a href="{% url 'quorapp:follow_topic' %}?t={{question.topic.id}}"><span class="bluetext">Follow Topic</span></a></li>
        {% if request.user == question.user %}
-       <li><a href="{% url 'postdelete' %}?p={{question.id}}"><span class="redtext">Delete Post</span></a></li>
+       <li><a href="{% url 'quorapp:postdelete' %}?p={{question.id}}"><span class="redtext">Delete Post</span></a></li>
         {% endif %}
      </ul>
 
     </div>
   {% for answer in question.answer_set.all|dictsortreversed:"updated_at" %}
-  <h5>Answer by <span class="italictext"><a href="{% url 'view_profile' %}?u={{answer.user.id}}" class="black"> {{answer.user.username}} </a></span>
-    <a href="{% url 'upvote' %}?u={{answer.id}}" role="button" class="btn btn-default"><span class="bluetext">Upvotes: {{answer.upvotes}}</span></a>
-    <div class="btn-group" style="display:inline-block">
+  <br/>
+  <a href="{% url 'quorapp:upvote' %}?u={{answer.id}}" role="button" class="btn btn-default"><span class="bluetext">Upvotes: {{answer.upvotes}}</span></a>
+  <h5 style="display:inline-block">Answer by <span class="italictext"><a href="{% url 'quorapp:view_profile' %}?u={{answer.user.id}}" class="black"> {{answer.user.username}} </a></span>
+   <div class="btn-group" style="display:inline-block">
        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-      <span class="fa fa-bars blackext"></span></button>
+      <span class="fa fa-angle-double-down blackext"></span></button>
      <ul class="dropdown-menu" role="menu">
-       <li><a href="{% url 'follow' %}?f={{answer.user.id}}"><span class="bluetext">Follow User</span></a></li>
+       <li><a href="{% url 'quorapp:follow' %}?f={{answer.user.id}}"><span class="bluetext">Follow User</span></a></li>
+      <li><a href="{% url 'quorapp:postcomment' %}?a={{answer.id}}"><span class="comment">Comment </span></a></li>
        {% if request.user == answer.user %}
-       <li><a href="{% url 'postdelete' %}?p={{answer.id}}"><span class="redtext">Delete Post</span></a></li>
+       <li><a href="{% url 'quorapp:postdelete' %}?p={{answer.id}}"><span class="redtext">Delete Post</span></a></li>
         {% endif %}
      </ul>
     </div>
-  <h5 class="answertext"><span class="q">A</span>&nbsp;&nbsp;{{answer.text}}</h5>
+<h5 class="answertext"><span class="q">A</span>&nbsp;&nbsp;{{answer.text}}</h5>
 
   {% if answer.imagepath %}
   <img src="{{answer.imagepath}}" class="img-responsive" />
   {% endif %}
+  {% for comment in answer.comment_set.all|dictsortreversed:"updated_at" %}
+  <div class="col-lg-2"></div>
+  <div class="col-lg-10 commentsection" style="margin-bottom:5px;">
+    <h5 class="blacktext" style="display:inline-block">Reply by <span class="italictext"> <a href="{% url 'quorapp:view_profile' %}?u={{answer.user.id}}" class="black"> {{comment.user.username}}</span></a></h5>
+       <div class="btn-group" style="display:inline-block">
+       <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+      <span class="fa fa-angle-double-down blackext"></span></button>
+     <ul class="dropdown-menu" role="menu">
+       <li><a href="{% url 'quorapp:follow' %}?f={{comment.user.id}}"><span class="bluetext">Follow User</span></a></li>
+       {% if request.user == comment.user %}
+       <li><a href="{% url 'quorapp:postdelete' %}?p={{comment.id}}"><span class="redtext">Delete Post</span></a></li>
+        {% endif %}
+     </ul>
+    </div>
+      <h5 class="comment" > {{comment.text}}</h5>
+  </div>
+  {% endfor %}
   <hr class="style1 center-block">
   {% endfor %}
   <hr class="style2 center-block" style="color:red">
   <br>
   {% endfor %}
+  {% else %}
+  <h3 class="bluetext"><b><span class="redtext">Ooops could not find the content you're looking for :( </span></b></h3>
+  <a href="{% url 'quorapp:home' %}" class="btn btn-default"> Home</a>
+  {% endif %}
  </div>
 {% endblock content %}

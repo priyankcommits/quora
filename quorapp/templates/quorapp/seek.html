@@ -10,7 +10,7 @@
 {% if users %}
 <h4 class="bluetext">Results </h4>
 {% for user in users %}
-<a href="{% url 'seek_confirm' %}?q={{question.id}}&u={{user.id}}" role="button" class="btn btn-default"><span class="bluetext custom">{{user.username}}</span></a></br></br>
+<a href="{% url 'quorapp:seek_confirm' %}?q={{question.id}}&u={{user.id}}" role="button" class="btn btn-default"><span class="bluetext custom">{{user.username}}</span></a></br></br>
 {% endfor %}
 
 {% endif %}
